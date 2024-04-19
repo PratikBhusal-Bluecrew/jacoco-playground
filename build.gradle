@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'org.jetbrains.kotlin.jvm' version '1.9.0'
+    id "io.github.surpsg.delta-coverage" version '2.3.0'
 }
 
 group 'com.madrapps'
@@ -61,4 +62,13 @@ tasks.create(name: "testCoverage", type: JacocoReport, dependsOn: "test") {
     ])
 
     executionData.from = files("${project.buildDir}/jacoco/test.exec")
+}
+
+deltaCoverageReport {
+    diffSource.git.compareWith "refs/remotes/origin/main"
+
+    reports {
+        html.set(true)
+        xml.set(true)
+    }
 }
